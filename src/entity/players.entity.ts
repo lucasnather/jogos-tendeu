@@ -19,12 +19,12 @@ export class Players {
     @Column()
     role: string
 
-    @OneToOne(type => Sessions, sessions => sessions.userId)
-    sessions: Sessions
+    @OneToOne(type => Sessions, sessions => sessions.userId, { nullable: true })
+    sessions?: Sessions
 
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date
 
     @Column({ nullable: true , name: 'updated_at'})
-    updatedAt: Date
+    updatedAt?: Date
 }

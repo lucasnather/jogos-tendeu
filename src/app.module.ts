@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config'
+import { DatabaseModule } from './config/database.module';
 import { envSchema } from './env';
+import { PlayersModule } from './players/players.module';
 
 @Module({
   imports: [
@@ -8,7 +10,8 @@ import { envSchema } from './env';
       envFilePath: '.env',
       validate: (env) => envSchema.parse(env),
       isGlobal: true
-    })
+    }),
+    PlayersModule, DatabaseModule
   ],
 })
 export class AppModule {}
