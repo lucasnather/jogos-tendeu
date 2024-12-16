@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { EnvType } from 'src/env'
+import { Players } from 'src/players/players.entity'
+import { Sessions } from 'src/players/session.entity'
 
 @Module({
     imports:[
@@ -15,10 +17,13 @@ import { EnvType } from 'src/env'
             POSTGRES_USERNAME: configService.get('POSTGRES_USERNAME'),
             POSTGRES_PASSWORD: configService.get('POSTGRES_PASSWORD'),
             POSTGRES_DATABASE: configService.get('POSTGRES_DATABASE'),
-            entities: [],
+            entities: [
+                Players, Sessions
+            ],
             synchronize: true
-           })
-        })
-    ]
+           }),
+           inject: [ConfigService]
+        }),
+    ],
 })
 export class DatabaseModule {}
