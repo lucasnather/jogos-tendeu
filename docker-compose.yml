@@ -1,0 +1,21 @@
+services:
+  games:
+    image: 'bitnami/postgresql'
+    container_name: games
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    volumes:
+      - ./db:/var/lib/postgresql
+    environment:
+      - POSTGRESQL_USERNAME=${POSTGRES_USERNAME}
+      - POSTGRESQL_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRESQL_DATABASE=${POSTGRES_DATABASE}
+    networks:
+      - games-nather
+
+volumes:
+  db:
+
+networks:
+  games-nather:
+    driver: bridge
