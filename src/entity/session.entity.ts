@@ -1,13 +1,11 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Players } from "./players.entity";
 
 @Entity('sessions')
 export class Sessions {
 
     @PrimaryGeneratedColumn('increment')
     id?: number
-
-    @Column({ name: 'user_id' })
-    userId: string
 
     @Column()
     ip: string
@@ -18,9 +16,13 @@ export class Sessions {
     @Column({ default: false })
     active?: boolean
 
+    @OneToOne(() => Players, player => player.sessions) // Relacionamento com Player
+    @JoinColumn({ name: 'playerId'})  // Define a coluna que irá fazer a ligação com Players
+    player?: Players
+
     @CreateDateColumn({ name: 'created_at' })
     createdAt?: Date
 
-    @Column({ nullable: true , name: 'updated_at'})
+    @UpdateDateColumn({ nullable: true , name: 'updated_at'})
     updatedAt?: Date
 }

@@ -35,7 +35,7 @@ export class AuthenticateUserService {
         const session = await this.sessionsRepository.create({
             ip: data.ip,
             userAgent: data.userAgent,
-            userId: findByNickname.id,
+            player: findByNickname
         })
 
         return {

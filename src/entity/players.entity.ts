@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Sessions } from './session.entity'
 
 enum Role {
@@ -25,12 +25,13 @@ export class Players {
     @Column({ nullable: true , enum: Role, type: 'enum', default: Role.USER})
     role?: string
 
-    @OneToOne(type => Sessions, sessions => sessions.userId, { nullable: true })
+    @OneToOne(() => Sessions, sessions => sessions.player, { nullable: true , cascade: true})
+    @JoinColumn({ name: 'sessionId' })
     sessions?: Sessions
 
     @CreateDateColumn({ name: 'created_at' , nullable: true})
     createdAt?: Date
 
-    @Column({ nullable: true , name: 'updated_at'})
+    @UpdateDateColumn({ nullable: true , name: 'updated_at'})
     updatedAt?: Date
 }

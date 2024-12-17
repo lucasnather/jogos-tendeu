@@ -16,7 +16,7 @@ export class SessionRepository {
             active: true,
             ip: data.ip,
             userAgent: data.userAgent,
-            userId: data.userId
+            player: { id: data.player.id }
         })
         this.sessionRepository.save(session)
 
@@ -26,7 +26,9 @@ export class SessionRepository {
     async findByActive(userId: string) {
         const findByActive = await this.sessionRepository.findOneBy({
             active: true,
-            userId
+            player: {
+                id: userId
+            }
         })
 
         if(!findByActive) return null
