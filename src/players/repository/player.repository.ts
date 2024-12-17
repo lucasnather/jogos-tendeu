@@ -13,7 +13,17 @@ export class PlayersRepository {
 
     async create(data: Players): Promise<Players> {
         const player = this.playersRepository.create(data)
-        this.playersRepository.save(player)
+        await this.playersRepository.save(player)
+
+        return player
+    }
+
+    async findById(userId: string): Promise<Players> {
+        const player = this.playersRepository.findOneBy({
+            id: userId
+        })
+
+        if(!player) return null
 
         return player
     }

@@ -10,10 +10,10 @@ const payloadSchema = z.object({
     role: z.enum(['ADMIN', 'USER'])
 })
 
-type PayloadType = z.infer<typeof payloadSchema>
+export type PayloadType = z.infer<typeof payloadSchema>
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
     constructor(private configService: ConfigService<EnvType, true>) {
         super({
