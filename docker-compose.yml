@@ -12,6 +12,15 @@ services:
       - POSTGRESQL_DATABASE=${POSTGRES_DATABASE}
     networks:
       - games-nather
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"  # Porta padrão do Adminer
+    depends_on:
+      - games
+    networks:
+      - games-nather
 
 volumes:
   db:
