@@ -1,6 +1,11 @@
 import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Sessions } from './session.entity'
 
+enum Role {
+    ADMIN = 'admin',
+    USER = 'user'
+}
+
 @Entity('players')
 export class Players {
 
@@ -17,7 +22,7 @@ export class Players {
     @Column({ unique: true})
     nickname: string
 
-    @Column({ nullable: true })
+    @Column({ nullable: true , enum: Role, type: 'enum', default: Role.USER})
     role?: string
 
     @OneToOne(type => Sessions, sessions => sessions.userId, { nullable: true })

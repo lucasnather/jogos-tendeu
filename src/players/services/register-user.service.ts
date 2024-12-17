@@ -17,8 +17,9 @@ export class RegisterUserService {
 
         if(findPlayerByNickname) throw new Error('Jogador já existe')
 
+        data.password = await this.passwordHash.hash(data.password)
+
         const player = await this.playersRepository.create(data)
-        player.password = await this.passwordHash.hash(data.password)
 
         return player
     }
