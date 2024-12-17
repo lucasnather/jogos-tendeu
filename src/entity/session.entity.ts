@@ -4,7 +4,7 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeor
 export class Sessions {
 
     @PrimaryGeneratedColumn('increment')
-    id: number
+    id?: number
 
     @Column({ name: 'user_id' })
     userId: string
@@ -15,12 +15,12 @@ export class Sessions {
     @Column({ name: 'user_agent' })
     userAgent: string
 
-    @Column()
-    active: boolean
+    @Column({ default: false })
+    active?: boolean
 
     @CreateDateColumn({ name: 'created_at' })
-    createdAt: Date
+    createdAt?: Date
 
     @Column({ nullable: true , name: 'updated_at'})
-    updatedAt: Date
+    updatedAt?: Date
 }

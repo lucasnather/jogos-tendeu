@@ -1,4 +1,5 @@
-import { Body, Controller, HttpCode, Post, UsePipes } from "@nestjs/common";
+import { Body, Controller, HttpCode, Post, Req, UsePipes } from "@nestjs/common";
+import { Request } from 'express'
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { EnvType } from "src/env";
@@ -25,10 +26,17 @@ export class AuthenticateController {
     @Post()
     @HttpCode(201)
     @UsePipes(new ZodValidationPipe(authenticateBodySchema))
-    async authenticate(@Body() authenticateBody: AuthenticateUserService) {
+    async authenticate(@Body() authenticateBody: AuthenticateUserService, @Req() request: Request) {
         const { nickname, password } = authenticateBodySchema.parse(authenticateBody)
+        const ip = request.ip
+        const userAgent = request.headers['user-agent']
 
-        const verifyPlayer = await this.authenticateUserService.handle(nickname, password)
+        const verifyPlayer = await this.authenticateUserService.handle({
+            password,
+            nickname,
+            ip,
+            userAgent
+        })
 
         const payload = {
             sub: verifyPlayer.player.id,
@@ -42,6 +50,8 @@ export class AuthenticateController {
                 type: "Token",
                 status: 201,
                 "access_token": accessToken,
+                "user_agent": verifyPlayer.session.userAgent,
+                isActive: verifyPlayer.session.active
             }
         }
     }
