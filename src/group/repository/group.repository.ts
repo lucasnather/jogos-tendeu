@@ -23,11 +23,21 @@ export class GroupRepository {
     }
 
     async findGroupByNameAndPlayer(name: string, playerId: string) {
-        const group = this.groupRepository.findOneBy({
+        const group = await this.groupRepository.findOneBy({
             name,
             players: {
                 id: playerId
             }
+        })
+
+        if(!group) return null
+
+        return group
+    }
+
+    async findGroupById(groupId: number) {
+        const group = await this.groupRepository.findOneBy({
+            id: groupId
         })
 
         if(!group) return null

@@ -3,7 +3,7 @@ import { Groups } from "./group.entity";
 import { IndividualMatch } from "./individual-match.entity";
 import { TeamMatch } from "./team-match.entity";
 
-enum Type {
+export enum Type {
     TEAM = 'team',
     INDIVIDUAL = 'individual'
 }
