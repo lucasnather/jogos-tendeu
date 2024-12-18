@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Groups } from './group.entity'
 import { Sessions } from './session.entity'
 
@@ -26,9 +26,9 @@ export class Players {
     @Column({ nullable: true , enum: Role, type: 'enum', default: Role.USER})
     role?: string
 
-    @OneToMany(() => Groups, groups => groups.players)
-    @JoinColumn()
-    groups?: Groups[]
+    @ManyToOne(() => Groups, groups => groups.players, { nullable: true })
+    @JoinColumn({ name: "groupId" })
+    groups?: Groups
 
     @OneToOne(() => Sessions, sessions => sessions.player, { nullable: true , cascade: true})
     @JoinColumn({ name: 'sessionId' })

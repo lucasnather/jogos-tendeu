@@ -22,7 +22,7 @@ export class CreateGroupService {
 
         const findGroupByName = await this.groupRepository.findGroupByNameAndPlayer(
             data.name,
-            findPlayerById
+            data.playerId
         )
 
         if(findGroupByName) throw new Error("Grupo já criado")
