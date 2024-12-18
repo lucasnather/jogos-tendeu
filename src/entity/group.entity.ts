@@ -11,11 +11,11 @@ export class Groups {
     @Column()
     name: string
 
-    @OneToMany(() => Games, games => games.group, { cascade: true })
-    @JoinColumn({ name: "gamesId" })
+    @OneToMany(() => Games, games => games.group)
+    @JoinColumn({ name: "gamesId"})
     games?: Games[]
 
-    @OneToMany(() => Players, players => players.sessions)
+    @OneToMany(() => Players, players => players.sessions, )
     @JoinColumn({ name: "playersId" })
     players?: Players
 

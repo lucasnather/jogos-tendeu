@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, Prim
 import { Groups } from './group.entity'
 import { Sessions } from './session.entity'
 
-enum Role {
+export enum Role {
     ADMIN = 'admin',
     USER = 'user'
 }

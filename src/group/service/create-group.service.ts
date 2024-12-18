@@ -32,6 +32,8 @@ export class CreateGroupService {
             players: findPlayerById
         })
 
+        await this.playerRepository.updatePlayerById(data.playerId)
+
         return {
             group
         }

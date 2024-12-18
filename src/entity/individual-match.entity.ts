@@ -7,10 +7,10 @@ export class IndividualMatch {
     @PrimaryGeneratedColumn('increment')
     id?: number
 
-    @Column()
+    @Column({ type: 'simple-array' })
     players: string[]
 
-    @Column({ nullable: true })
+    @Column({ nullable: true , type: 'simple-array'})
     winners: string[]
 
     @OneToOne(() => Games, games => games.individualMatch)

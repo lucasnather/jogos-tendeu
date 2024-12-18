@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config'
 import { AuthModule } from './auth/auth.module';
 import { DatabaseModule } from './config/database.module';
 import { envSchema } from './env';
+import { GroupModule } from './group/group.module';
 import { PlayersModule } from './players/players.module';
 
 @Module({
@@ -12,7 +13,7 @@ import { PlayersModule } from './players/players.module';
       validate: (env) => envSchema.parse(env),
       isGlobal: true
     }),
-    PlayersModule, DatabaseModule, AuthModule
+    PlayersModule, DatabaseModule, AuthModule, GroupModule
   ],
 })
 export class AppModule {}

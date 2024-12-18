@@ -7,16 +7,16 @@ export class TeamMatch {
     @PrimaryGeneratedColumn('increment')
     id?: number
 
-    @Column({ name: "purple_team" })
+    @Column({ name: "purple_team" , type: 'simple-array'})
     purpleTeam: string[]
 
-    @Column({ name: "yellow_team" })
+    @Column({ name: "yellow_team" , type: 'simple-array'})
     yellowTeam: string[]
 
-    @Column({ name: "winner_team" })
+    @Column({ name: "winner_team" ,type: 'simple-array'})
     winnerTeam: string[]
 
-    @Column({ nullable: true })
+    @Column({ nullable: true , type: 'simple-array'})
     winners: string[]
 
     @OneToOne(() => Games, games => games.teamMatch)
