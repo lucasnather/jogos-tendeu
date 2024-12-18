@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Games } from "./games.entity";
+import { Players } from "./players.entity";
 
 @Entity("groups")
 export class Groups {
@@ -13,6 +14,10 @@ export class Groups {
     @OneToMany(() => Games, games => games.group, { cascade: true })
     @JoinColumn({ name: "gamesId" })
     games?: Games[]
+
+    @OneToMany(() => Players, players => players.groups)
+    @JoinColumn()
+    players?: Players[]
 
     @CreateDateColumn({ name: 'created_at' , nullable: true})
     createdAt?: Date
