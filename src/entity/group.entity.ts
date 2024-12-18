@@ -15,9 +15,9 @@ export class Groups {
     @JoinColumn({ name: "gamesId" })
     games?: Games[]
 
-    @OneToMany(() => Players, players => players.groups)
-    @JoinColumn()
-    players?: Players[]
+    @OneToMany(() => Players, players => players.sessions)
+    @JoinColumn({ name: "playersId" })
+    players?: Players
 
     @CreateDateColumn({ name: 'created_at' , nullable: true})
     createdAt?: Date

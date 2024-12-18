@@ -22,7 +22,7 @@ export class GroupRepository {
         return group
     }
 
-    async findGroupByName(name: string, player: Players) {
+    async findGroupByNameAndPlayer(name: string, player: Players) {
         const group = this.groupRepository.findOneBy({
             name,
             players: player
