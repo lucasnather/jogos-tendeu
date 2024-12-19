@@ -6,6 +6,7 @@ import { EnvType } from "src/env";
 import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
 import { z } from "zod";
 import { AuthenticateUserService } from "../services/authenticate-user.service";
+import { CredentialInvalidError } from "src/pipes/errors/credential-invalid.error";
 
 const authenticateBodySchema = z.object({
     nickname: z.string(),
@@ -27,32 +28,41 @@ export class AuthenticateController {
     @HttpCode(201)
     @UsePipes(new ZodValidationPipe(authenticateBodySchema))
     async authenticate(@Body() authenticateBody: AuthenticateUserService, @Req() request: Request) {
-        const { nickname, password } = authenticateBodySchema.parse(authenticateBody)
-        const ip = request.ip
-        const userAgent = request.headers['user-agent']
+        try {
+            const { nickname, password } = authenticateBodySchema.parse(authenticateBody)
+            const ip = request.ip
+            const userAgent = request.headers['user-agent']
 
-        const verifyPlayer = await this.authenticateUserService.handle({
-            password,
-            nickname,
-            ip,
-            userAgent
-        })
+            const verifyPlayer = await this.authenticateUserService.handle({
+                password,
+                nickname,
+                ip,
+                userAgent
+            })
 
-        const payload = {
-            sub: verifyPlayer.player.id,
-            role: verifyPlayer.player.role
-        }
-
-        const accessToken = this.jwtService.sign(payload, { secret: this.configService.get('SECRET_KEY') })
-
-        return {
-            data: {
-                type: "Token",
-                status: 201,
-                "access_token": accessToken,
-                "user_agent": verifyPlayer.session.userAgent,
-                isActive: verifyPlayer.session.active
+            const payload = {
+                sub: verifyPlayer.player.id,
+                sessionId: verifyPlayer.session.id,
+                role: verifyPlayer.player.role,
             }
+
+            const accessToken = this.jwtService.sign(payload, { secret: this.configService.get('SECRET_KEY') })
+
+            return {
+                data: {
+                    type: "Token",
+                    status: 201,
+                    "access_token": accessToken,
+                    "user_agent": verifyPlayer.session.userAgent,
+                    isActive: verifyPlayer.session.active
+                }
+            }
+        }catch(e) {
+           if(e instanceof CredentialInvalidError) {
+                return {
+                    message: e.message,
+                }
+           }
         }
     }
 }

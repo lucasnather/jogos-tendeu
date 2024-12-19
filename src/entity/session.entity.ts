@@ -16,8 +16,8 @@ export class Sessions {
     @Column({ default: false })
     active?: boolean
 
-    @OneToOne(() => Players, player => player.sessions) // Relacionamento com Player
-    @JoinColumn({ name: 'playerId'})  // Define a coluna que irá fazer a ligação com Players
+    @OneToOne(() => Players, player => player.sessions)
+    @JoinColumn({ name: 'playerId'}) 
     player?: Players
 
     @CreateDateColumn({ name: 'created_at' })

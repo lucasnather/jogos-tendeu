@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { GamesRepository } from "src/games/repository/games.repository";
+import { ResourceNotFoundError } from "src/pipes/errors/resource-not-found.error";
 import { IndividualMatchRepository } from "../repositories/individual-match.repository";
 
 type IndividualMatchRequest = {
@@ -18,7 +19,7 @@ export class IndividualMatchService {
     async handle(data: IndividualMatchRequest) {
         const findGameById = await this.gamesRepository.findGameById(data.gameId)
 
-        if(!findGameById) throw new Error("Recurso não encontrado")
+        if(!findGameById) throw new ResourceNotFoundError("Jogo não encontrado")
 
         const individualMatch = await this.individualMatchRepository.create({
             players: data.players,

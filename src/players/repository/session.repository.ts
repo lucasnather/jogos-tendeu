@@ -23,16 +23,25 @@ export class SessionRepository {
         return session
     }
 
-    async findByActive(userId: string) {
-        const findByActive = await this.sessionRepository.findOneBy({
+    async deleteByActive(playerId: string) {
+        const session = await this.sessionRepository.delete({
             active: true,
             player: {
-                id: userId
+                id: playerId
             }
         })
 
-        if(!findByActive) return null
+        if(session.affected === 0) return null
+    }
 
-        return findByActive
+    async logoutUser(playerId: string) {
+        const session = await this.sessionRepository.update({
+            player: {
+                id: playerId
+            }
+        }, { active: false  })
+
+        if(session.affected === 0) return null
+
     }
 }

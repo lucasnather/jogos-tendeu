@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Players } from "src/entity/players.entity";
+import { ResourceAlreadyCreateError } from "src/pipes/errors/resource-already-create.error";
 import { PlayersRepository } from "../repository/player.repository";
 import { PasswordHash } from "../utils/password-hash.service";
 
@@ -15,7 +16,7 @@ export class RegisterUserService {
     async handle(data: Players) {
         const findPlayerByNickname = await this.playersRepository.findByNickname(data.nickname)
 
-        if(findPlayerByNickname) throw new Error('Jogador já existe')
+        if(findPlayerByNickname) throw new ResourceAlreadyCreateError('Jogador já existente')
 
         data.password = await this.passwordHash.hash(data.password)
 

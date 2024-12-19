@@ -2,6 +2,8 @@ import { Body, Controller, HttpCode, Post, Req, UseGuards, UsePipes } from "@nes
 import { Request } from "express"
 import { PayloadType } from "src/auth/auth.strategy";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { ResourceAlreadyCreateError } from "src/pipes/errors/resource-already-create.error";
+import { ResourceNotFoundError } from "src/pipes/errors/resource-not-found.error";
 import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
 import { z } from "zod";
 import { CreateGroupService } from "../service/create-group.service";
@@ -24,19 +26,30 @@ export class CreateGroupController {
     @UsePipes(new ZodValidationPipe(createGroupSchema))
     @UseGuards(JwtAuthGuard)
     async create(@Body() createGroupType: CreateGroupType, @Req() request: Request & { user: PayloadType }) {
-        const { name } = createGroupSchema.parse(createGroupType)
-        const { sub } = request.user
+        try {
+            const { name } = createGroupSchema.parse(createGroupType)
+            const { sub } = request.user
 
-        const group =await this.createGroupService.handle({
-            name,
-            playerId: sub
-        })
+            const group =await this.createGroupService.handle({
+                name,
+                playerId: sub
+            })
 
-        return {
-            data: {
-                type: "Group",
-                status: 201,
-                group
+            return {
+                data: {
+                    type: "Group",
+                    status: 201,
+                    group
+                }
+            }
+        } catch (e) {
+            
+            if(e instanceof ResourceAlreadyCreateError || e instanceof ResourceNotFoundError) {
+                return {
+                    message: "Error",
+                    status: 404,
+                    error: e.message
+                }
             }
         }
     }

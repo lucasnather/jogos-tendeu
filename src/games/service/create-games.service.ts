@@ -3,6 +3,8 @@ import { Games, Type } from "src/entity/games.entity";
 import { IndividualMatch } from "src/entity/individual-match.entity";
 import { GroupRepository } from "src/group/repository/group.repository";
 import { IndividualMatchRepository } from "src/matches/repositories/individual-match.repository";
+import { ResourceAlreadyCreateError } from "src/pipes/errors/resource-already-create.error";
+import { ResourceNotFoundError } from "src/pipes/errors/resource-not-found.error";
 import { GamesRepository } from "../repository/games.repository";
 
 type CreateGamesRequest = {
@@ -27,14 +29,14 @@ export class CreateGamesService {
         let individualMatch: IndividualMatch
         const findGroupById = await this.groupRepository.findGroupById(data.groupId)
 
-        if(!findGroupById) throw new Error("Recurso não encontrado")
+        if(!findGroupById) throw new ResourceNotFoundError("Grupo não encontrado")
 
         const findGameByName = await this.gamesRepository.findGameByNameAndPlayer(
             data.name,
             findGroupById.id
         )
         
-        if(findGameByName) throw new Error("Jogo já foi criado")
+        if(findGameByName) throw new ResourceAlreadyCreateError("Jogo já foi criado com esse nome")
 
         if(data.type === 'individual') {
 
@@ -46,7 +48,6 @@ export class CreateGamesService {
                     name: findGroupById.name
                 }
             })
-            console.log(game)
 
             individualMatch = await this.individualMatchRepository.create({
                 players: data.individualPlayers,
@@ -57,7 +58,6 @@ export class CreateGamesService {
                 }
             })
 
-            console.log(individualMatch)
         }
 
         return {

@@ -1,4 +1,5 @@
 import { Body, Controller, HttpCode, Post, UsePipes } from "@nestjs/common";
+import { ResourceAlreadyCreateError } from "src/pipes/errors/resource-already-create.error";
 import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
 import { z } from "zod";
 import { RegisterUserService } from "../services/register-user.service";
@@ -22,21 +23,32 @@ export class RegisterPlayerController {
     @HttpCode(201)
     @UsePipes(new ZodValidationPipe(createPlayerSchema))
     async create(@Body() createPlayerDTO: CreatePlayerType) {
-        const {  name, nickname, password } = createPlayerSchema.parse(createPlayerDTO)
-        const createPlayer = {
-            name,
-            nickname,
-            password
-        }
+        try {
+            const {  name, nickname, password } = createPlayerSchema.parse(createPlayerDTO)
+            const createPlayer = {
+                name,
+                nickname,
+                password
+            }
 
-        const player = await this.registerPlayersService.handle(createPlayer)
+            const player = await this.registerPlayersService.handle(createPlayer)
 
-        return {
-            data: {
-                type: "Player",
-                status: 201,
-                field: player
+            return {
+                data: {
+                    type: "Player",
+                    status: 201,
+                    field: player
+                }
+            }
+        } catch (e) {
+            if(e instanceof ResourceAlreadyCreateError) {
+                return {
+                    message: "Error",
+                    status: 404,
+                    error: e.message
+                }
             }
         }
     }
 }
+

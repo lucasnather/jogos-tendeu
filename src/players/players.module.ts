@@ -5,16 +5,18 @@ import { Players } from "src/entity/players.entity";
 import { Sessions } from "src/entity/session.entity";
 import { AuthenticateController } from "./controller/authenticate.controller";
 import { FindUserByIdController } from "./controller/find-user-by-id.controller";
+import { LogoutController } from "./controller/logout.controller";
 import { RegisterPlayerController } from "./controller/register-user.controller";
 import { PlayersRepository } from "./repository/player.repository";
 import { SessionRepository } from "./repository/session.repository";
 import { AuthenticateUserService } from "./services/authenticate-user.service";
 import { FindUserByIdService } from "./services/find-user-by-id.service";
+import { LogoutService } from "./services/logout.service";
 import { RegisterUserService } from "./services/register-user.service";
 import { PasswordHash } from "./utils/password-hash.service";
 
 @Module({
-    controllers: [RegisterPlayerController, AuthenticateController, FindUserByIdController],
+    controllers: [RegisterPlayerController, AuthenticateController, FindUserByIdController, LogoutController],
     providers: [
         PlayersRepository, 
         PasswordHash, 
@@ -22,7 +24,8 @@ import { PasswordHash } from "./utils/password-hash.service";
         JwtService, 
         AuthenticateUserService,
         SessionRepository,
-        FindUserByIdService
+        FindUserByIdService,
+        LogoutService
     ],
     imports: [TypeOrmModule.forFeature([Players, Sessions])],
     exports: [],
