@@ -5,6 +5,7 @@ import { DatabaseModule } from './config/database.module';
 import { envSchema } from './env';
 import { GamesModule } from './games/games.module';
 import { GroupModule } from './group/group.module';
+import { MatchesModule } from './matches/matches.module';
 import { PlayersModule } from './players/players.module';
 
 @Module({
@@ -14,7 +15,7 @@ import { PlayersModule } from './players/players.module';
       validate: (env) => envSchema.parse(env),
       isGlobal: true
     }),
-    PlayersModule, DatabaseModule, AuthModule, GroupModule, GamesModule
+    PlayersModule, DatabaseModule, AuthModule, GroupModule, GamesModule, MatchesModule
   ],
 })
 export class AppModule {}

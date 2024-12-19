@@ -11,11 +11,11 @@ export class IndividualMatch {
     players: string[]
 
     @Column({ nullable: true , type: 'simple-array'})
-    winners: string[]
+    winner?: string
 
     @OneToOne(() => Games, games => games.individualMatch)
     @JoinColumn( {name: "gamesId" })
-    games: Games
+    games?: Games
 
     @CreateDateColumn({ name: 'created_at' , nullable: true})
     createdAt?: Date

@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Games } from "src/entity/games.entity";
-import { Groups } from "src/entity/group.entity";
 import { Repository } from "typeorm";
 
 @Injectable()
@@ -36,5 +35,15 @@ export class GamesRepository {
         if(!games) return null
 
         return games
+    }
+
+    async findGameById(gameId: number) {
+        const game = await this.gamesRepository.findOneBy({
+            id: gameId
+        })
+
+        if(!game) return null
+
+        return game
     }
 }
