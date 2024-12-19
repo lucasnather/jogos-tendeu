@@ -2,11 +2,9 @@ import { Body, Controller, HttpCode, Post, Put, Req, UseGuards, UsePipes } from 
 import { Request } from "express";
 import { PayloadType } from "src/auth/auth.strategy";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
-import { ResourceAlreadyCreateError } from "src/pipes/errors/resource-already-create.error";
 import { ResourceNotFoundError } from "src/pipes/errors/resource-not-found.error";
 import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
 import { z } from "zod";
-import { RegisterUserService } from "../services/register-user.service";
 import { UpdatePlayerService } from "../services/update-player.service";
 
 export const updatePlayerSchema = z.object({

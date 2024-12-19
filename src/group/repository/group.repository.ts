@@ -44,4 +44,28 @@ export class GroupRepository {
 
         return group
     }
+
+    async updateGroup(groupId: number, playerId: string, data: Groups) {
+        const group = await this.groupRepository.update({
+            id: groupId,
+            players: {
+                id: playerId
+            }
+        }, {
+            name: data.name
+        })
+
+        if(group.affected === 0) return null
+    }
+
+    async deleteGroup(groupId: number, playerId: string) {
+        const group = await this.groupRepository.delete({
+            id: groupId,
+            players: {
+                id: playerId
+            }
+        })
+
+        if(group.affected === 0) return null
+    }
 }
