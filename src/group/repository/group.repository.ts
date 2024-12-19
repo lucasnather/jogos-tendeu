@@ -15,7 +15,7 @@ export class GroupRepository {
     async create(data: Groups) {
         const group = this.groupRepository.create({
             name: data.name,
-            players: data.players
+            players: { id: data.players.id }
         })
         await this.groupRepository.save(group)
 

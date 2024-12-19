@@ -30,7 +30,7 @@ export class CreateGroupController {
             const { name } = createGroupSchema.parse(createGroupType)
             const { sub } = request.user
 
-            const group =await this.createGroupService.handle({
+            const { group } = await this.createGroupService.handle({
                 name,
                 playerId: sub
             })
