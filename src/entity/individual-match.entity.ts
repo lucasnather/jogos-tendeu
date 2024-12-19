@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Games } from "./games.entity";
+import { Scores } from "./scores.entity";
 
 @Entity("individual_match")
 export class IndividualMatch {
@@ -16,6 +17,10 @@ export class IndividualMatch {
     @OneToOne(() => Games, games => games.individualMatch)
     @JoinColumn( {name: "gamesId" })
     games?: Games
+
+    @OneToMany(() => Scores, scores => scores.individualMatch)
+    @JoinColumn({ name: "scoreId" })
+    scores?: Scores[]
 
     @CreateDateColumn({ name: 'created_at' , nullable: true})
     createdAt?: Date
