@@ -44,4 +44,22 @@ export class PlayersRepository {
 
         if(result.affected === 0) return null
     }
+
+    async update(playerId: string, data: Players ) {
+        const result = await this.playersRepository.update(playerId, {
+            nickname: data.nickname,
+            password: data.password,
+            name: data.name
+        })
+
+        if(result.affected === 0) return null
+    }
+
+    async deleteById(playerId: string) {
+        const result = await this.playersRepository.delete({
+            id: playerId
+        })
+
+        if(result.affected === 0) return null
+    }
 }

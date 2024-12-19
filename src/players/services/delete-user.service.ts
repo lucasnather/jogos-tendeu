@@ -3,7 +3,7 @@ import { ResourceNotFoundError } from "src/pipes/errors/resource-not-found.error
 import { PlayersRepository } from "../repository/player.repository";
 
 @Injectable()
-export class FindUserByIdService {
+export class DeleteUserService {
 
     constructor(
         private playerRepository: PlayersRepository
@@ -13,6 +13,8 @@ export class FindUserByIdService {
         const player = await this.playerRepository.findById(playerId)
 
         if(!player) throw new ResourceNotFoundError("Jogador Não Econtrado")
+
+        await this.playerRepository.deleteById(playerId)
 
         return {
             player

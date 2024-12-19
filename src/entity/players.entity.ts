@@ -26,11 +26,11 @@ export class Players {
     @Column({ nullable: true , enum: Role, type: 'enum', default: Role.USER})
     role?: string
 
-    @ManyToOne(() => Groups, groups => groups.players, { nullable: true })
+    @ManyToOne(() => Groups, groups => groups.players, { nullable: true , onDelete: "CASCADE"})
     @JoinColumn({ name: "groupId" })
     groups?: Groups
 
-    @OneToOne(() => Sessions, sessions => sessions.player, { nullable: true , cascade: true})
+    @OneToOne(() => Sessions, sessions => sessions.player, { nullable: true , onDelete: "CASCADE"})
     @JoinColumn({ name: 'sessionId' })
     sessions?: Sessions
 

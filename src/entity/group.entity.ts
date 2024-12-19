@@ -15,7 +15,7 @@ export class Groups {
     @JoinColumn({ name: "gamesId"})
     games?: Games[]
 
-    @OneToMany(() => Players, players => players.groups )
+    @OneToMany(() => Players, players => players.groups , { cascade: true })
     @JoinColumn({ name: "playerId" })
     players?: Players
 

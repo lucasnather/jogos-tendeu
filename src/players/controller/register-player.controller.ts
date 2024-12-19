@@ -37,7 +37,7 @@ export class RegisterPlayerController {
                 data: {
                     type: "Player",
                     status: 201,
-                    field: player
+                    player
                 }
             }
         } catch (e) {

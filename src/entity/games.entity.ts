@@ -27,7 +27,7 @@ export class Games {
     @JoinColumn({ name: 'groupId' })
     group?: Groups
 
-    @OneToOne(() => IndividualMatch, individualMatch => individualMatch.games, { nullable: true })
+    @OneToOne(() => IndividualMatch, individualMatch => individualMatch.games, { nullable: true} )
     @JoinColumn({ name: 'individual_match_id' })
     individualMatch?: IndividualMatch
 

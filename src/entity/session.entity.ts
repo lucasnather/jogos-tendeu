@@ -16,7 +16,7 @@ export class Sessions {
     @Column({ default: false })
     active?: boolean
 
-    @OneToOne(() => Players, player => player.sessions)
+    @OneToOne(() => Players, player => player.sessions, { cascade: true , onDelete: 'CASCADE',})
     @JoinColumn({ name: 'playerId'}) 
     player?: Players
 
