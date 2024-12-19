@@ -11,7 +11,7 @@ export class Groups {
     @Column()
     name: string
 
-    @OneToMany(() => Games, games => games.group)
+    @OneToMany(() => Games, games => games.group, { onDelete: 'CASCADE' })
     @JoinColumn({ name: "gamesId"})
     games?: Games[]
 

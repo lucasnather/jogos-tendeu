@@ -23,7 +23,7 @@ export class Games {
     })
     type: Type
 
-    @ManyToOne(() => Groups, group => group.games)
+    @ManyToOne(() => Groups, group => group.games, { cascade: true})
     @JoinColumn({ name: 'groupId' })
     group?: Groups
 

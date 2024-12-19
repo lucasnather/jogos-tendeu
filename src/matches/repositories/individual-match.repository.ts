@@ -23,4 +23,13 @@ export class IndividualMatchRepository {
 
         return individualMatch
     }
+
+    async updateWinnerByIdAndGamesId(individualMatchId: number, gamesId: number, winner: string) {
+        const individualMatch = await this.individualMatchRepository.update({
+            id: individualMatchId,
+            games: { id: gamesId }
+        }, { winner })
+
+        if(individualMatch.affected === 0 ) return null
+    }
 }

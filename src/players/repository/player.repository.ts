@@ -18,9 +18,9 @@ export class PlayersRepository {
         return player
     }
 
-    async findById(userId: string): Promise<Players> {
+    async findById(playerId: string): Promise<Players> {
         const player = this.playersRepository.findOne({
-            where: { id: userId },
+            where: { id: playerId },
             relations: ['sessions']
         })
 
