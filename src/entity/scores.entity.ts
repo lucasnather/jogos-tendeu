@@ -13,7 +13,7 @@ export class Scores {
     @Column()
     score: number
 
-    @OneToOne(() => IndividualMatch, individualMatch => individualMatch.scores)
+    @OneToMany(() => IndividualMatch, individualMatch => individualMatch.scores, { nullable: true })
     @JoinColumn({ name: "individualMatchId" })
     individualMatch?: IndividualMatch
 

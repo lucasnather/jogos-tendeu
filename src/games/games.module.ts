@@ -3,6 +3,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { Games } from "src/entity/games.entity";
 import { Groups } from "src/entity/group.entity";
 import { IndividualMatch } from "src/entity/individual-match.entity";
+import { Scores } from "src/entity/scores.entity";
 import { GroupRepository } from "src/group/repository/group.repository";
 import { IndividualMatchRepository } from "src/matches/repositories/individual-match.repository";
 import { IndividualMatchService } from "src/matches/services/individual-match.service";
@@ -14,7 +15,7 @@ import { CreateGamesService } from "./service/create-games.service";
     controllers: [CreateGamesController],
     providers: [GamesRepository, CreateGamesService, GroupRepository, IndividualMatchService, IndividualMatchRepository],
     imports: [
-        TypeOrmModule.forFeature([Games, Groups, IndividualMatch])
+        TypeOrmModule.forFeature([Games, Groups, IndividualMatch, Scores])
     ]
 })
 export class GamesModule {}

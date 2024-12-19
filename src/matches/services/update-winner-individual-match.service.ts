@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { Scores } from "src/entity/scores.entity";
 import { GamesRepository } from "src/games/repository/games.repository";
 import { ResourceNotFoundError } from "src/pipes/errors/resource-not-found.error";
 import { PlayersRepository } from "src/players/repository/player.repository";
@@ -8,7 +9,8 @@ type IndividualMatchRequest = {
     gameId: number,
     individualMatchId: number,
     winner: string,
-    playerId: string
+    playerId: string,
+    scores: Scores[]
 }
 
 @Injectable()
@@ -32,7 +34,13 @@ export class UpdateWinnerIndividualMatchService {
         await this.individualMatchRepository.updateWinnerByIdAndGamesId(
             data.individualMatchId,
             data.gameId,
-            data.winner
+            data.winner,
         )
+
+        const scores = await this.individualMatchRepository.createScores(data.scores)
+
+        return {
+            scores
+        }
     }
 }

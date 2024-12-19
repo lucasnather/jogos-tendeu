@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { IndividualMatch } from "src/entity/individual-match.entity";
+import { Scores } from "src/entity/scores.entity";
 import { Repository } from "typeorm";
 
 @Injectable()
@@ -8,7 +9,9 @@ export class IndividualMatchRepository {
     
     constructor(
         @InjectRepository(IndividualMatch)
-        private individualMatchRepository: Repository<IndividualMatch>
+        private individualMatchRepository: Repository<IndividualMatch>,
+        @InjectRepository(Scores)
+        private scoresRepository: Repository<Scores>
     ) {}
 
     async create(data: IndividualMatch): Promise<IndividualMatch> {
@@ -28,8 +31,17 @@ export class IndividualMatchRepository {
         const individualMatch = await this.individualMatchRepository.update({
             id: individualMatchId,
             games: { id: gamesId }
-        }, { winner })
+        }, {
+            winner: winner,
+        })
 
         if(individualMatch.affected === 0 ) return null
+    }
+
+    async createScores(scores: Scores[] ) {
+        const score = this.scoresRepository.create(scores)
+        await this.scoresRepository.save(score)
+
+        return score
     }
 }
