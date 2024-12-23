@@ -65,6 +65,8 @@ export class CreateGamesService {
                 }
             })
 
+            await this.gamesRepository.updateRelationTeamMatch(teamMatch.id, games.id)
+
             return {
                 games,
                 players: teamMatch
@@ -89,6 +91,9 @@ export class CreateGamesService {
                     name: games.name
                 }
             })
+
+            await this.gamesRepository.updateRelationIndividualMatch(individualMatch.id, games.id)
+           
             return {
                 games,
                 players: individualMatch

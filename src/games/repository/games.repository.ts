@@ -48,7 +48,6 @@ export class GamesRepository {
             relations: ['individualMatch', 'teamMatch']
         })
 
-        console.log(games)
         return games
     }
 
@@ -73,5 +72,21 @@ export class GamesRepository {
         if(!game) return null
 
         return game
+    }
+
+    async updateRelationIndividualMatch(individualMatchId: number, gameId: number) {
+        await this.gamesRepository.update({
+            id: gameId
+        }, { individualMatch: { id: individualMatchId } })
+
+        
+    }
+
+    async updateRelationTeamMatch(teamMatchId: number, gameId: number) {
+        await this.gamesRepository.update({
+            id: gameId
+        }, { teamMatch: { id: teamMatchId } })
+
+        
     }
 }
