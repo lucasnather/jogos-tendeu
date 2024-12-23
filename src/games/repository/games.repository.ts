@@ -1,7 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Games } from "src/entity/games.entity";
-import { Repository } from "typeorm";
+import { Games, Type } from "src/entity/games.entity";
+import { In, Like, Repository } from "typeorm";
+
+type Filters = {
+    groupId: number
+    date?: Date
+    type?: Type
+    name?: string
+    playerName?: string
+    playersNames?: string[]
+}
 
 @Injectable()
 export class GamesRepository {
@@ -21,6 +30,25 @@ export class GamesRepository {
         })
         await this.gamesRepository.save(games)
 
+        return games
+    }
+
+    async findGamesByFilters(filters: Filters) {
+        const currentlyDate = new Date(filters.date)
+
+        const games = await this.gamesRepository.find({
+            where: {
+                ...( filters.groupId && { group: { id: filters.groupId } } ),
+                ...(filters.name && { name: Like(`%${filters.name}%`) }),
+                ...(filters.playerName && { individualMatch: { winner: filters.playerName  }}),
+                ...(filters.playersNames && { teamMatch: { winnerTeam: In(filters.playersNames) }}),
+                ...(filters.type && { type: filters.type  }),
+                ...(filters.date && { createdAt: currentlyDate })
+            },
+            relations: ['individualMatch', 'teamMatch']
+        })
+
+        console.log(games)
         return games
     }
 

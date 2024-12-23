@@ -1,6 +1,7 @@
 import { Body, Controller, HttpCode, Injectable, Param, Put, Req, UseGuards, UsePipes } from "@nestjs/common";
 import { PayloadType } from "src/auth/auth.strategy";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { ResourceNotFoundError } from "src/pipes/errors/resource-not-found.error";
 import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
 import { z } from "zod";
 import { UpdateWinnerIndividualMatchService } from "../services/update-winner-individual-match.service";
@@ -39,31 +40,42 @@ export class UpdateWinnerIndividualMatchController {
         @Param() param: UpdateWinnerParamType,
         @Req() request: Request & { user: PayloadType }
     ) {
-        const { sub } = request.user
-        const { scores, winner} = updateWinnerBodySchema.parse(body)
-        const { gameId, individualMatchId } = updateWinnerParamSchema.parse(param)
-
-        const score = scores.map(s => {
-            return {
-                player: s.player,
-                score: s.score,
-                position: s.position
-            }
-        })
-        const { scores: allScores } = await this.individualMatchWinnerService.handle({
-            gameId,
-            individualMatchId,
-            playerId: sub,
-            winner,
-            scores: score
-        })
-
-        return {
-            data: {
-                type: "Individual Match",
-                status: 203,
+        try {
+            const { sub } = request.user
+            const { scores, winner} = updateWinnerBodySchema.parse(body)
+            const { gameId, individualMatchId } = updateWinnerParamSchema.parse(param)
+    
+            const score = scores.map(s => {
+                return {
+                    player: s.player,
+                    score: s.score,
+                    position: s.position
+                }
+            })
+            const { scores: allScores } = await this.individualMatchWinnerService.handle({
+                gameId,
+                individualMatchId,
+                playerId: sub,
                 winner,
-                scores: allScores
+                scores: score
+            })
+    
+            return {
+                data: {
+                    type: "Individual Match",
+                    status: 203,
+                    winner,
+                    scores: allScores
+                }
+            }
+            
+        } catch (e) {
+            if(e instanceof ResourceNotFoundError) {
+                return {
+                    message: "Error",
+                    status: 404,
+                    error: e.message
+                }
             }
         }
     }
