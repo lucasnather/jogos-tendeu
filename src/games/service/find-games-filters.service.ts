@@ -8,8 +8,8 @@ type FindGamesByRequest = {
     date?: Date
     name?: string
     type?: Type,
-    playerName?: string
-    playersNames?: string[]
+    winner?: string
+    winnerTeam?: string[]
     playerId: string
     groupId: number
 }
@@ -30,8 +30,8 @@ export class FindGamesByFiltersService {
         const games = await this.gamesRepositpry.findGamesByFilters({
             date: data.date,
             name: data.name,
-            playerName: data.playerName,
-            playersNames: data.playersNames,
+            winner: data.winner,
+            winnerTeam: data.winnerTeam,
             groupId: data.groupId,
             type: data.type
         })

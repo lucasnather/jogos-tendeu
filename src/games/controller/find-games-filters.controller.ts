@@ -9,9 +9,9 @@ import { FindGamesByFiltersService } from "../service/find-games-filters.service
 const findGamesQuerySchema = z.object({
     date: z.date().optional().nullable(),
     name: z.string().optional().nullable(),
-    playerName: z.string().optional().nullable(),
+    winner: z.string().optional().nullable(),
     type: z.nativeEnum(Type).optional().nullable(),
-    playersNames: z.array(z.string()).optional().nullable(),
+    winnerTeam: z.array(z.string()).optional().nullable(),
 })
 
 const findGamesParamSchema = z.object({
@@ -33,7 +33,7 @@ export class FindGamesByFiltersController {
     @HttpCode(200)
     async find(@Query() query: FindGamesFiltersQueryType, @Param() param: FindGamesFiltersParamType, @Req() request: Request & { user: PayloadType }) {
         try {
-            const { date, name, playerName, playersNames, type } = findGamesQuerySchema.parse(query)
+            const { date, name, winner, winnerTeam, type } = findGamesQuerySchema.parse(query)
             const { sub } = request.user
             const {  groupId } = findGamesParamSchema.parse(param)
 
@@ -42,9 +42,9 @@ export class FindGamesByFiltersController {
                 groupId,
                 date,
                 name,
-                playerName,
+                winner,
                 type,
-                playersNames
+                winnerTeam
             })
 
             console.log(games)

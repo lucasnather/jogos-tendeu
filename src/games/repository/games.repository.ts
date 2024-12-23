@@ -8,8 +8,8 @@ type Filters = {
     date?: Date
     type?: Type
     name?: string
-    playerName?: string
-    playersNames?: string[]
+    winner?: string
+    winnerTeam?: string[]
 }
 
 @Injectable()
@@ -40,8 +40,8 @@ export class GamesRepository {
             where: {
                 ...( filters.groupId && { group: { id: filters.groupId } } ),
                 ...(filters.name && { name: Like(`%${filters.name}%`) }),
-                ...(filters.playerName && { individualMatch: { winner: filters.playerName  }}),
-                ...(filters.playersNames && { teamMatch: { winnerTeam: In(filters.playersNames) }}),
+                ...(filters.winner && { individualMatch: { winner: filters.winner  }}),
+                ...(filters.winnerTeam && { teamMatch: { winnerTeam: In(filters.winnerTeam) }}),
                 ...(filters.type && { type: filters.type  }),
                 ...(filters.date && { createdAt: currentlyDate })
             },
