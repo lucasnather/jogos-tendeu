@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { IndividualMatch } from "./individual-match.entity";
 import { TeamMatch } from "./team-match.entity";
 
@@ -17,8 +17,7 @@ export class Scores {
     @Column({ nullable: true })
     position?: number
 
-    @OneToMany(() => IndividualMatch, individualMatch => individualMatch.scores, { nullable: true })
-    @JoinColumn({ name: "individualMatchId" })
+    @ManyToOne(() => IndividualMatch, individualMatch => individualMatch.scores, { nullable: true })
     individualMatch?: IndividualMatch
 
     @OneToMany(() => TeamMatch, teamMatch => teamMatch.scores, { nullable: true })

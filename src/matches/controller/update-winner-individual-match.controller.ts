@@ -2,7 +2,6 @@ import { Body, Controller, HttpCode, Injectable, Param, Put, Req, UseGuards, Use
 import { PayloadType } from "src/auth/auth.strategy";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { ResourceNotFoundError } from "src/pipes/errors/resource-not-found.error";
-import { ZodValidationPipe } from "src/pipes/zod-validation.pipe";
 import { z } from "zod";
 import { UpdateWinnerIndividualMatchService } from "../services/update-winner-individual-match.service";
 

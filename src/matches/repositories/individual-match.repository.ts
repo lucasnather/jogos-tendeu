@@ -36,10 +36,21 @@ export class IndividualMatchRepository {
         })
 
         if(individualMatch.affected === 0 ) return null
+
+        return individualMatch
     }
 
-    async createScores(scores: Scores[] ) {
-        const score = this.scoresRepository.create(scores)
+    async createScores(scores: Scores[], individualMatchId: number) {
+        const allScores = scores.map(s => {
+            return {
+                individualMatch: {
+                   id: individualMatchId
+                },
+                ...s,
+            }
+        })
+        
+        const score = this.scoresRepository.create(allScores)
         await this.scoresRepository.save(score)
 
         return score

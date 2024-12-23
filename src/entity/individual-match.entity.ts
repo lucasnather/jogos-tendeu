@@ -19,7 +19,6 @@ export class IndividualMatch {
     games?: Games
 
     @OneToMany(() => Scores, scores => scores.individualMatch)
-    @JoinColumn({ name: "scoreId" })
     scores?: Scores[]
 
     @CreateDateColumn({ name: 'created_at' , nullable: true})

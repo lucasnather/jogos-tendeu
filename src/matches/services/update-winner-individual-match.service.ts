@@ -37,10 +37,12 @@ export class UpdateWinnerIndividualMatchService {
             data.winner,
         )
 
-        const scores = await this.individualMatchRepository.createScores(data.scores)
+        const scores = await this.individualMatchRepository.createScores(data.scores, data.individualMatchId)
 
         return {
             scores
         }
+
+
     }
 }
