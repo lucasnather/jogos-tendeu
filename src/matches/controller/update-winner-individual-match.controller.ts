@@ -60,7 +60,7 @@ export class UpdateWinnerIndividualMatchController {
 
         return {
             data: {
-                type: "IndividualMatch",
+                type: "Individual Match",
                 status: 203,
                 winner,
                 scores: allScores
