@@ -22,7 +22,8 @@ import { EnvType } from 'src/env'
             password: configService.get('POSTGRES_PASSWORD'),
             database: configService.get('POSTGRES_DATABASE'),
             entities: [Players, Sessions, Groups, Games, TeamMatch, IndividualMatch, Scores],
-            synchronize: true
+            synchronize: true,
+            logging: true
            }),
            inject: [ConfigService]
         }),

@@ -28,11 +28,11 @@ export class Games {
     group?: Groups
 
     @OneToOne(() => IndividualMatch, individualMatch => individualMatch.games, { nullable: true} )
-    @JoinColumn({ name: 'individual_match_id' })
+    @JoinColumn({ name: 'individualMatchId' })
     individualMatch?: IndividualMatch
 
     @OneToOne(() => TeamMatch, teamMatch => teamMatch.games,  { nullable: true })
-    @JoinColumn({ name: 'team_match' })
+    @JoinColumn({ name: 'teamMatchId' })
     teamMatch?: TeamMatch
 
     @CreateDateColumn({ name: 'created_at' , nullable: true})

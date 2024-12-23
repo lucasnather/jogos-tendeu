@@ -9,7 +9,8 @@ const updateWinnerBodySchema = z.object({
     winner: z.string(),
     scores: z.array(z.object({
         player: z.string().min(2, "Digite o nome do jogador"),
-        score: z.number().positive("Digite o valor da pontuação")
+        score: z.number().positive("Digite o valor da pontuação"),
+        position: z.number()
     }))
 })
 
@@ -45,7 +46,8 @@ export class UpdateWinnerIndividualMatchController {
         const score = scores.map(s => {
             return {
                 player: s.player,
-                score: s.score
+                score: s.score,
+                position: s.position
             }
         })
         const { scores: allScores } = await this.individualMatchWinnerService.handle({

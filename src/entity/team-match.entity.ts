@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Games } from "./games.entity";
+import { Scores } from "./scores.entity";
 
 @Entity("team_match")
 export class TeamMatch {
@@ -13,19 +14,20 @@ export class TeamMatch {
     @Column({ name: "yellow_team" , type: 'simple-array'})
     yellowTeam: string[]
 
-    @Column({ name: "winner_team" ,type: 'simple-array'})
-    winnerTeam: string[]
-
-    @Column({ nullable: true , type: 'simple-array'})
-    winners: string[]
+    @Column({ name: "winner_team" ,type: 'simple-array', nullable: true})
+    winnerTeam?: string[]
 
     @OneToOne(() => Games, games => games.teamMatch)
     @JoinColumn( {name: "gamesId" })
-    games: Games
+    games?: Games
+
+    @OneToMany(() => Scores, scores => scores.teamMatch)
+    @JoinColumn({ name: "scoreId" })
+    scores?: Scores[]
 
     @CreateDateColumn({ name: 'created_at' , nullable: true})
     createdAt?: Date
 
-    @UpdateDateColumn({ nullable: true , name: 'updated_at'})
+    @UpdateDateColumn({name: 'updated_at', nullable: true})
     updatedAt?: Date
 }
